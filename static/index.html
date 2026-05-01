@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Underwriting AI | Antigravity Bank</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏦 Loan Underwriting Agent</h1>
+            <p>Advanced AI-driven Risk Assessment & Policy Compliance</p>
+        </header>
+
+        <!-- Application Form -->
+        <div id="form-view">
+            <form id="underwrite-form">
+                <div class="card">
+                    <div class="section-title"><i data-lucide="user"></i> Applicant Details</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="applicant_name" placeholder="e.g. Vedant Sharma" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PAN Number</label>
+                            <input type="text" name="pan_number" placeholder="ABCDE1234F" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" required>
+                        </div>
+                    </div>
+
+                    <div class="section-title"><i data-lucide="banknote"></i> Loan Details</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Loan Amount (₹)</label>
+                            <input type="number" name="loan_amount" value="500000" step="10000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Loan Type</label>
+                            <select name="loan_type">
+                                <option value="Home">Home Loan</option>
+                                <option value="Personal">Personal Loan</option>
+                                <option value="Business">Business Loan</option>
+                                <option value="Vehicle">Vehicle Loan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tenure (Years)</label>
+                            <input type="number" name="loan_tenure" value="10" min="1" max="30" required>
+                        </div>
+                    </div>
+
+                    <div class="section-title"><i data-lucide="briefcase"></i> Financials</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Employment Type</label>
+                            <select name="employment_type">
+                                <option value="Salaried">Salaried</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Business Owner">Business Owner</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Annual Income (₹)</label>
+                            <input type="number" name="annual_income" value="1200000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Existing Monthly EMI</label>
+                            <input type="number" name="existing_emi" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section-title"><i data-lucide="shield"></i> Collateral & Verification</div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Collateral Type</label>
+                            <select name="collateral_type">
+                                <option value="None">None</option>
+                                <option value="Property">Property</option>
+                                <option value="Gold">Gold</option>
+                                <option value="FD">Fixed Deposit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Collateral Value (₹)</label>
+                            <input type="number" name="collateral_value" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Income Proof (PDF)</label>
+                            <input type="file" name="document" accept="application/pdf" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden inputs for compatibility with API -->
+                    <input type="hidden" name="loan_purpose" value="General">
+                    <input type="hidden" name="employer_name" value="N/A">
+                    <input type="hidden" name="years_at_employer" value="2">
+                    <input type="hidden" name="active_loans" value="0">
+                    <input type="hidden" name="loan_default" value="No">
+                    <input type="hidden" name="collateral_description" value="N/A">
+
+                    <button type="submit" id="submit-btn">🚀 Run AI Underwriting Analysis</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay">
+            <div class="spinner"></div>
+            <h3>AI Agent is evaluating your application...</h3>
+            <p>Verifying documents, checking credit, and assessing risk tiers.</p>
+        </div>
+
+        <!-- Results View -->
+        <div id="results-view">
+            <div class="result-header">
+                <div>
+                    <h2 id="result-app-id">APP-000000</h2>
+                    <p id="result-applicant">Applicant Name</p>
+                </div>
+                <div id="verdict-badge" class="verdict-badge">PENDING</div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('tab-doc')">📄 Doc Check</div>
+                <div class="tab" onclick="showTab('tab-credit')">💳 Credit</div>
+                <div class="tab" onclick="showTab('tab-risk')">⚖️ Risk</div>
+                <div class="tab" onclick="showTab('tab-policy')">📜 Policy</div>
+                <div class="tab" onclick="showTab('tab-verdict')">🏁 Final Verdict</div>
+            </div>
+
+            <div class="card">
+                <!-- Doc Check Tab -->
+                <div id="tab-doc" class="tab-content active">
+                    <div class="section-title">Document Verification</div>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Extracted Name</div>
+                            <div class="metric-value" id="ext-name">-</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Extracted Income</div>
+                            <div class="metric-value" id="ext-income">₹0</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Verification Status</div>
+                            <div class="metric-value" id="doc-status">-</div>
+                        </div>
+                    </div>
+                    <div id="doc-flags" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Credit Tab -->
+                <div id="tab-credit" class="tab-content">
+                    <div class="section-title">Credit Profile</div>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Bureau Score</div>
+                            <div class="metric-value" id="bureau-score">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">DTI Ratio</div>
+                            <div class="metric-value" id="dti-ratio">0%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">FOIR</div>
+                            <div class="metric-value" id="foir">0%</div>
+                        </div>
+                    </div>
+                    <div id="credit-flags" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Risk Tab -->
+                <div id="tab-risk" class="tab-content">
+                    <div class="section-title">Risk Assessment</div>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Risk Tier</div>
+                            <div class="metric-value" id="risk-tier">-</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">LTV Ratio</div>
+                            <div class="metric-value" id="ltv-ratio">0%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Collateral Score</div>
+                            <div class="metric-value" id="collateral-score">0</div>
+                        </div>
+                    </div>
+                    <div id="risk-flags" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Policy Tab -->
+                <div id="tab-policy" class="tab-content">
+                    <div class="section-title">Policy Compliance</div>
+                    <div id="policy-status" style="margin-bottom: 1rem;"></div>
+                    <div id="policy-violations"></div>
+                    <div id="policy-rules" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);"></div>
+                </div>
+
+                <!-- Verdict Tab -->
+                <div id="tab-verdict" class="tab-content">
+                    <div class="section-title">Final Underwriter Report</div>
+                    <div class="report-text" id="decision-report"></div>
+                    <div style="margin-top: 1.5rem;">
+                        <h4>Recommended Terms</h4>
+                        <pre id="rec-terms" style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="window.location.reload()" style="background: transparent; border: 1px solid var(--border); color: var(--text-muted);">Back to New Application</button>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

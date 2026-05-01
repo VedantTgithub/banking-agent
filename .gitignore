@@ -1,0 +1,9 @@
+venv/
+.env
+chroma_db/
+__pycache__/
+*.pyc
+memory/checkpoints.db
+.ipynb_checkpoints/
+*.pdf
+rag/docs/*.pdf

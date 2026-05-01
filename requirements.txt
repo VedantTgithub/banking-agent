@@ -1,0 +1,28 @@
+# Core agent
+langchain==0.3.7
+langchain-huggingface==0.1.2
+langchain-community==0.3.7
+langgraph==0.2.50
+
+# RAG
+chromadb==0.5.20
+sentence-transformers==3.3.1
+
+# LLM / HuggingFace
+huggingface-hub==0.26.3
+transformers==4.46.3
+
+# FastAPI (added later but install now)
+fastapi==0.115.5
+uvicorn==0.32.1
+python-multipart==0.0.27
+
+# Streamlit
+streamlit==1.40.2
+
+# Utilities
+python-dotenv==1.0.1
+pydantic==2.10.1
+pypdf==5.1.0
+requests==2.32.3
+reportlab==3.6.12
