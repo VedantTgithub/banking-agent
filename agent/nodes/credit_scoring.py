@@ -61,10 +61,10 @@ Metrics:
 - Income Stability   : {metrics['income_stability']}
 - Past Loan Default  : {metrics['past_default']}
 - Active Loans       : {metrics['active_loans']}
-- Annual Income      : ₹{metrics['annual_income']:,.0f}
-- Loan Amount        : ₹{metrics['loan_amount']:,.0f}
-- Proposed EMI       : ₹{metrics['proposed_emi']:,.0f} / month
-- Existing EMI       : ₹{metrics['existing_emi']:,.0f} / month
+- Annual Income      : Rs.{metrics['annual_income']:,.0f}
+- Loan Amount        : Rs.{metrics['loan_amount']:,.0f}
+- Proposed EMI       : Rs.{metrics['proposed_emi']:,.0f} / month
+- Existing EMI       : Rs.{metrics['existing_emi']:,.0f} / month
 - Employment Type    : {metrics['employment_type']}
 
 If llm_flags is empty, return an empty list [].
@@ -120,7 +120,7 @@ def run(state: AgentState) -> Dict[str, Any]:
     declared_income  = state.get("annual_income", 0.0)
     # Use extracted income if Node 1 verified it; otherwise fall back to declared
     income = extracted_income if extracted_income > 0 else declared_income
-    print(f"[Node 2] Using income: ₹{income:,.0f} "
+    print(f"[Node 2] Using income: Rs.{income:,.0f} "
           f"({'extracted' if extracted_income > 0 else 'declared'})")
 
     loan_amount      = state.get("loan_amount", 0.0)
@@ -144,7 +144,7 @@ def run(state: AgentState) -> Dict[str, Any]:
     dti_ratio    = calculate_dti(existing_emi, income)
     foir         = calculate_foir(existing_emi, proposed_emi, income)
 
-    print(f"[Node 2] Proposed EMI : ₹{proposed_emi:,.2f}")
+    print(f"[Node 2] Proposed EMI : Rs.{proposed_emi:,.2f}")
     print(f"[Node 2] DTI          : {dti_ratio} %")
     print(f"[Node 2] FOIR         : {foir} %")
 

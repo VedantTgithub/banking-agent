@@ -129,7 +129,7 @@ async def underwrite(
     try:
         # Use invoke instead of stream for a single API response
         # Or we could use stream and yield events, but simple invoke is better for standard REST
-        final_state = loan_agent_app.invoke(state, config={"configurable": {"thread_id": "api-demo"}})
+        final_state = loan_agent_app.invoke(state, config={"configurable": {"thread_id": state["application_id"]}})
         return final_state
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Agent execution failed: {str(e)}")

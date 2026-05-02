@@ -17,6 +17,8 @@ from agent.nodes import (
     policy_compliance,
     decision_generation,
 )
+from memory.checkpointer import get_checkpointer
+
 
 # ── ROUTERS ──────────────────────────────────────────────────────────────────
 
@@ -104,8 +106,8 @@ def create_graph():
     workflow.add_edge("policy_compliance", "decision_generation")
     workflow.add_edge("decision_generation", END)
 
-    # 5. Compile
-    return workflow.compile()
+    # 5. Compile with SQLite persistence
+    return workflow.compile(checkpointer=get_checkpointer())
 
 # Export a singleton instance
 loan_agent_app = create_graph()

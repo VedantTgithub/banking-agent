@@ -140,11 +140,11 @@ def run(state: AgentState) -> Dict[str, Any]:
     elif declared_income > 0:
         margin = 0.05 * declared_income
         if abs(extracted_income - declared_income) > margin:
-            flag = f"Income mismatch: declared ₹{declared_income:,.2f} but document says ₹{extracted_income:,.2f}"
+            flag = f"Income mismatch: declared Rs.{declared_income:,.2f} but document says Rs.{extracted_income:,.2f}"
             doc_flags.append(flag)
             print(f"[Node 1] WARNING: {flag}")
         else:
-            print(f"[Node 1] Income match OK: declared ₹{declared_income:,.2f} ~ extracted ₹{extracted_income:,.2f}")
+            print(f"[Node 1] Income match OK: declared Rs.{declared_income:,.2f} ~ extracted Rs.{extracted_income:,.2f}")
 
     doc_verified = len(doc_flags) == 0 and len(missing_docs) == 0
     print(f"[Node 1] doc_verified = {doc_verified}")
